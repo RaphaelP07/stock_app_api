@@ -1,9 +1,11 @@
 class WalletsController < ApplicationController
   before_action :set_wallet, only: %i[ show update destroy ]
+  before_action :get_user
+  before_action :authenticate_user!
 
   # GET /wallets
   def index
-    @wallets = Wallet.all
+    @wallets = @user.wallets
 
     render json: @wallets
   end
@@ -15,7 +17,8 @@ class WalletsController < ApplicationController
 
   # POST /wallets
   def create
-    @wallet = Wallet.new(wallet_params)
+    # @wallet = Wallet.new(wallet_params)
+    @wallet = @user.wallets.build(wallet_params)
 
     if @wallet.save
       render json: @wallet, status: :created, location: @wallet
@@ -42,6 +45,10 @@ class WalletsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_wallet
       @wallet = Wallet.find(params[:id])
+    end
+
+    def get_user
+      @user = User.find(params[:user_id])
     end
 
     # Only allow a list of trusted parameters through.

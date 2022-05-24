@@ -1,11 +1,13 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: %i[ show update destroy ]
+  before_action :get_wallet
+  before_action :authenticate_user!
 
   # GET /transactions
   def index
-    @transactions = Transaction.all
-
-    render json: @transactions
+    @transactions = @wallet.transactions.sort_by {
+      |transaction| transaction.date
+    }
   end
 
   # GET /transactions/1
@@ -15,7 +17,7 @@ class TransactionsController < ApplicationController
 
   # POST /transactions
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = @wallet.transactions.build(transaction_params)
 
     if @transaction.save
       render json: @transaction, status: :created, location: @transaction
@@ -42,6 +44,10 @@ class TransactionsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
       @transaction = Transaction.find(params[:id])
+    end
+
+    def get_wallet
+      @wallet = Wallet.find(params[:wallet_id])
     end
 
     # Only allow a list of trusted parameters through.
