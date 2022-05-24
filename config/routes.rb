@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :transactions
   get '/current_user', to: 'current_user#index'
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
@@ -10,5 +9,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
-  resources :wallets
+  resources :wallets do
+    resources :transactions
+  end
 end
