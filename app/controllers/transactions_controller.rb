@@ -6,8 +6,10 @@ class TransactionsController < ApplicationController
   # GET /transactions
   def index
     @transactions = @wallet.transactions.sort_by {
-      |transaction| transaction.date
+      |transaction| transaction.created_at
     }
+
+    render json: @transactions
   end
 
   # GET /transactions/1

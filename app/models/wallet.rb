@@ -5,7 +5,6 @@ class Wallet < ApplicationRecord
     :transactions,
     class_name: 'Transaction',
     foreign_key: 'wallet_id',
-    inverse_of: :wallet,
     dependent: :destroy
   )
 end
