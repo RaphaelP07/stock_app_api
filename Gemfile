@@ -19,6 +19,8 @@ gem 'devise'
 gem 'devise-jwt'
 gem 'fast_jsonapi'
 gem 'dotenv-rails'
+gem 'rest-client'
+gem 'json'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
