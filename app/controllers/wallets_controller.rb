@@ -48,7 +48,7 @@ class WalletsController < ApplicationController
     end
 
     def get_user
-      @user = User.find(params[:user_id])
+      @user = Wallet.find(2).user
     end
 
     # Only allow a list of trusted parameters through.
