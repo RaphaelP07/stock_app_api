@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :stocks
   get '/current_user', to: 'current_user#index'
-  devise_for :users, path: '', path_names: {
+  devise_for :users, controllers: { confirmations: 'confirmations' }, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
     registration: 'signup'
