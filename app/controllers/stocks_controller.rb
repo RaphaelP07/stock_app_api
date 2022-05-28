@@ -1,5 +1,3 @@
-require 'date'
-
 class StocksController < ApplicationController
   before_action :set_stock, only: %i[ show update destroy ]
 
@@ -49,7 +47,7 @@ class StocksController < ApplicationController
     stock_info = Stock.info(params[:symbol])
     render json: stock_info
   end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stock
