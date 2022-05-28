@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/stocks/topten' => 'stocks#topten', as: 'topten'
+  get '/stocks/info/:symbol' => 'stocks#info', as: 'info'
   resources :stocks
   get '/current_user', to: 'current_user#index'
   devise_for :users, controllers: { confirmations: 'confirmations' }, path: '', path_names: {

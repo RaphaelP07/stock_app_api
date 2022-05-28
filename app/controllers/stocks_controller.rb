@@ -1,3 +1,5 @@
+require 'date'
+
 class StocksController < ApplicationController
   before_action :set_stock, only: %i[ show update destroy ]
 
@@ -15,13 +17,13 @@ class StocksController < ApplicationController
 
   # POST /stocks
   def create
-    @stock = Stock.new(stock_params)
+    # @stock = Stock.new(stock_params)
 
-    if @stock.save
-      render json: @stock, status: :created, location: @stock
-    else
-      render json: @stock.errors, status: :unprocessable_entity
-    end
+    # if @stock.save
+    #   render json: @stock, status: :created, location: @stock
+    # else
+    #   render json: @stock.errors, status: :unprocessable_entity
+    # end
   end
 
   # PATCH/PUT /stocks/1
@@ -36,6 +38,16 @@ class StocksController < ApplicationController
   # DELETE /stocks/1
   def destroy
     @stock.destroy
+  end
+
+  def top_ten
+    top_ten_array = Stock.top_ten
+    render json: top_ten_array
+  end
+
+  def info
+    stock_info = Stock.info(params[:symbol])
+    render json: stock_info
   end
 
   private
