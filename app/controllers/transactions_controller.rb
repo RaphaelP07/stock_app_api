@@ -1,7 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: %i[ show update destroy ]
   before_action :get_wallet
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   # GET /transactions
   def index
@@ -42,6 +42,11 @@ class TransactionsController < ApplicationController
     @transaction.destroy
   end
 
+  def buy
+    @transaction = Transaction.buy(params[:wallet_id], params[:symbol], params[:shares].to_i)
+    render json: @transaction, status: :created
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
@@ -54,6 +59,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:symbol, :company, :shares, :type, :amount)
+      params.require(:transaction).permit(:symbol, :company, :shares, :type, :amount, :price)
     end
 end
