@@ -6,4 +6,5 @@ class Stock < ApplicationRecord
   def self.info(symbol)
     stock_info = JSON.parse(RestClient.get("#{ENV["IEX_BASE_URL"]}/stable/stock/#{symbol}/quote?token=#{ENV["IEX_TEST_KEY"]}"))
   end
+  belongs_to :user
 end

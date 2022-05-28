@@ -7,4 +7,5 @@ include Devise::JWT::RevocationStrategies::JTIMatcher
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   has_one :wallet, dependent: :destroy
+  has_many :stocks
 end
