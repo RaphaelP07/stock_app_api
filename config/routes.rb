@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get '/stocks/topten' => 'stocks#topten', as: 'topten'
+  get '/stocks/top_ten' => 'stocks#top_ten', as: 'top_ten'
   get '/stocks/info/:symbol' => 'stocks#info', as: 'info'
   resources :stocks
   get '/current_user', to: 'current_user#index'
