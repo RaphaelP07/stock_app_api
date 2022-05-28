@@ -1,4 +1,5 @@
 class Wallet < ApplicationRecord
+  validates :balance, comparison: { greater_than: 0 }
   belongs_to :user, :class_name => 'User'
 
   has_many(
