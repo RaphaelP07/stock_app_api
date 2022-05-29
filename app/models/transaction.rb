@@ -10,7 +10,7 @@ class Transaction < ApplicationRecord
 
   def self.buy(wallet_id, symbol, shares)
     stock_info = Stock.info(symbol)
-    if @transaction.wallet['balance'] >= (shares*stock_info['latestPrice'])
+    if @transaction.wallet['balance'] >= (shares*stock_info['latestPrice']) && @transaction.save
       @transaction = Wallet.find(wallet_id).transactions.build(
         symbol: stock_info['symbol'],
         company: stock_info['companyName'],
