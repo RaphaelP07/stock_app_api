@@ -47,6 +47,11 @@ class TransactionsController < ApplicationController
     render json: @transaction, status: :created
   end
 
+  def sell
+    @transaction = Transaction.sell(params[:wallet_id], params[:symbol], params[:shares].to_i)
+    render json: @transaction, status: :created
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
