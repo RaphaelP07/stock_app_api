@@ -46,4 +46,5 @@ class Transaction < ApplicationRecord
     else
       wallet.errors
     end
+  end
 end
