@@ -52,6 +52,34 @@ class TransactionsController < ApplicationController
     render json: @transaction, status: :created
   end
 
+  def portfolio
+    portfolio = []
+    @transactions = @wallet.transactions.map { |x| x.slice('action', 'shares', 'symbol') }
+    @transactions.each do |item|
+      has_item = true
+      portfolio.each do |stock|
+        if stock.to_h.has_value?(item['symbol'])
+          has_item = true
+            if item['action'] == 'buy'
+              stock['shares'] = (stock['shares'] + item['shares'])
+            elsif item['action'] == 'sell'
+              stock['shares'] = (stock['shares'] - item['shares'])
+            end
+          break
+        else
+          has_item = false
+        end
+      end
+      if portfolio == [] || has_item == false
+        portfolio.push(item)
+      end
+    end
+    portfolio = portfolio.map { |x| x.slice('shares', 'symbol') }
+
+
+    render json: [portfolio]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
