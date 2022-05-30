@@ -76,7 +76,6 @@ class TransactionsController < ApplicationController
     end
     portfolio = portfolio.map { |x| x.slice('shares', 'symbol') }
 
-
     render json: [portfolio]
   end
 
