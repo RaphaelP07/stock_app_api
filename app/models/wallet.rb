@@ -8,4 +8,12 @@ class Wallet < ApplicationRecord
     foreign_key: 'wallet_id',
     dependent: :destroy
   )
+
+  def self.cash_in(id, amount)
+    Wallet.find(id).update(balance: Wallet.find(id)['balance'] + amount)
+  end
+
+  def self.cash_out(id, amount)
+    Wallet.find(id).update(balance: Wallet.find(id)['balance'] - amount)
+  end
 end
