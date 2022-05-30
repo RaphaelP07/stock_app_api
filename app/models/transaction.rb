@@ -13,7 +13,7 @@ class Transaction < ApplicationRecord
     wallet = Wallet.find(wallet_id)
     amount = shares*stock_info['latestPrice']
     if wallet.update!(balance: wallet['balance'] - amount)
-      @transaction = wallet.transactions.build(
+      @transaction = wallet.transactions.create(
         symbol: stock_info['symbol'],
         company: stock_info['companyName'],
         price: stock_info['latestPrice'],
@@ -22,7 +22,6 @@ class Transaction < ApplicationRecord
         action: 'buy',
         wallet_id: wallet_id
         )
-      @transaction.save
       @transaction
     else
       wallet.errors
@@ -34,7 +33,7 @@ class Transaction < ApplicationRecord
     wallet = Wallet.find(wallet_id)
     amount = shares*stock_info['latestPrice']
     if wallet.update!(balance: wallet['balance'] + amount)
-      @transaction = wallet.transactions.build(
+      @transaction = wallet.transactions.create(
         symbol: stock_info['symbol'],
         company: stock_info['companyName'],
         price: stock_info['latestPrice'],
@@ -43,7 +42,6 @@ class Transaction < ApplicationRecord
         action: 'sell',
         wallet_id: wallet_id
         )
-      @transaction.save
       @transaction
     else
       wallet.errors
