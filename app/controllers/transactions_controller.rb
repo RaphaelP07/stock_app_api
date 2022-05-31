@@ -57,6 +57,7 @@ class TransactionsController < ApplicationController
     @transactions = @wallet.transactions.map { |x| x.slice('action', 'shares', 'symbol') }
     @transactions.each do |item|
       has_item = true
+      next if item['action'] == 'cash-in' || item['action'] == 'cash-out'
       portfolio.each do |stock|
         if stock.to_h.has_value?(item['symbol'])
           has_item = true

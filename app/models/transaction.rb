@@ -1,12 +1,17 @@
 class Transaction < ApplicationRecord
-  # validates :symbol, presence: true
-  validates :shares, comparison: { greater_than: 0 }
+  validates :symbol, presence: true, if: :buy_or_sell?
+  validates :shares, comparison: { greater_than: 0 }, if: :buy_or_sell?
 
   belongs_to(
     :wallet,
     class_name: 'Wallet',
     foreign_key: 'wallet_id'
   )
+
+  def buy_or_sell?
+    action == 'buy' ||
+    action == 'sell'
+  end
 
   def self.buy(wallet_id, symbol, shares)
     stock_info = Stock.info(symbol)

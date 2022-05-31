@@ -1,7 +1,7 @@
 class WalletsController < ApplicationController
-  before_action :set_wallet, only: %i[ show update destroy ]
+  before_action :set_wallet, only: %i[ show update destroy cash_in cash_out ]
   before_action :get_user
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   # GET /wallets
   def index
@@ -42,11 +42,30 @@ class WalletsController < ApplicationController
   end
 
   def cash_in
-    @wallet.cash_in(@wallet.id, params[:amount])
+    # @wallet.cash_in(@wallet.id, params[:amount])
+    if @wallet.update!(balance: @wallet['balance'] + params[:amount].to_d)
+      @transaction = @wallet.transactions.create(
+        amount: params[:amount].to_d,
+        action: 'cash-in',
+        wallet_id: @wallet.id
+        )
+      render json: @transaction
+    else
+      render json: @wallet.errors
+    end
   end
 
   def cash_out
-    @wallet.cash_out(@wallet.id, params[:amount])
+    if @wallet.update!(balance: @wallet['balance'] - params[:amount].to_d)
+      @transaction = @wallet.transactions.create(
+        amount: params[:amount].to_d,
+        action: 'cash-out',
+        wallet_id: @wallet.id
+        )
+      render json: @transaction
+    else
+      render json: @wallet.errors
+    end
   end
 
   private
@@ -56,7 +75,7 @@ class WalletsController < ApplicationController
     end
 
     def get_user
-      @user = Wallet.find(2).user
+      @user = Wallet.find(params[:id]).user
     end
 
     # Only allow a list of trusted parameters through.
