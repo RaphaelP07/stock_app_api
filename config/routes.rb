@@ -8,14 +8,15 @@ Rails.application.routes.draw do
   post '/wallets/:id/cash-out/:amount' => 'wallets#cash_out', as: 'cash_out'
   resources :stocks
   get '/current_user', to: 'current_user#index'
-  devise_for :users, controllers: { confirmations: 'confirmations' }, path: '', path_names: {
+  devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
     registration: 'signup'
   },
   controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    confirmations: 'confirmations'
   }
   resources :wallets do
     resources :transactions
